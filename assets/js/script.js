@@ -5,25 +5,23 @@ const apiKeyNews = "";
 
 // Animation et effets visuels basés sur les conditions météorologiques
 const weatherAnimations = {
-    // Définition des backgrounds en fonction des conditions
     backgrounds: {
-        "clear sky": "linear-gradient(135deg, #1e90ff, #87ceeb)", // Ciel bleu
-        "few clouds": "linear-gradient(135deg, #64b5f6, #bbdefb)", // Bleu clair avec nuages
-        "scattered clouds": "linear-gradient(135deg, #78909c, #b0bec5)", // Gris-bleu
-        "broken clouds": "linear-gradient(135deg, #607d8b, #90a4ae)", // Gris plus foncé
-        "shower rain": "linear-gradient(135deg, #546e7a, #78909c)", // Gris foncé
-        "rain": "linear-gradient(135deg, #455a64, #607d8b)", // Gris très foncé
-        "thunderstorm": "linear-gradient(135deg, #263238, #455a64)", // Presque noir
-        "snow": "linear-gradient(135deg, #e0e0e0, #f5f5f5)", // Blanc-gris
-        "mist": "linear-gradient(135deg, #b0bec5, #cfd8dc)", // Gris brumeux
-        "overcast clouds": "linear-gradient(135deg, #78909c, #90a4ae)", // Gris moyen
-        "light rain": "linear-gradient(135deg, #546e7a, #78909c)", // Gris-bleu
-        "moderate rain": "linear-gradient(135deg, #455a64, #607d8b)", // Plus foncé
-        "heavy intensity rain": "linear-gradient(135deg, #37474f, #546e7a)", // Très foncé
-        "fog": "linear-gradient(135deg, #9e9e9e, #bdbdbd)" // Gris brouillard
+        "clear sky": "linear-gradient(135deg, #1e90ff, #87ceeb)",
+        "few clouds": "linear-gradient(135deg, #64b5f6, #bbdefb)", 
+        "scattered clouds": "linear-gradient(135deg, #78909c, #b0bec5)", 
+        "broken clouds": "linear-gradient(135deg, #607d8b, #90a4ae)",
+        "shower rain": "linear-gradient(135deg, #546e7a, #78909c)", 
+        "rain": "linear-gradient(135deg, #455a64, #607d8b)",
+        "thunderstorm": "linear-gradient(135deg, #263238, #455a64)", 
+        "snow": "linear-gradient(135deg, #e0e0e0, #f5f5f5)",
+        "mist": "linear-gradient(135deg, #b0bec5, #cfd8dc)", 
+        "overcast clouds": "linear-gradient(135deg, #78909c, #90a4ae)", 
+        "light rain": "linear-gradient(135deg, #546e7a, #78909c)", 
+        "moderate rain": "linear-gradient(135deg, #455a64, #607d8b)", 
+        "heavy intensity rain": "linear-gradient(135deg, #37474f, #546e7a)", 
+        "fog": "linear-gradient(135deg, #9e9e9e, #bdbdbd)" 
     },
     
-    // Fonction pour définir la couleur du texte en fonction de la luminosité du fond
     getTextColor: function(conditions) {
         const darkConditions = ["thunderstorm", "heavy intensity rain", "moderate rain", "rain"];
         return darkConditions.includes(conditions) ? "#ffffff" : "#333333";
@@ -50,23 +48,20 @@ const weatherTranslations = {
 
 // Fonction pour traduire la météo
 function translateWeather(description) {
-    return weatherTranslations[description] || description; // Si pas dans la liste, garde l'original
+    return weatherTranslations[description] || description; 
 }
 
-// Fonction pour convertir un timestamp en heure locale
 function convertTimestampToTime(timestamp) {
-    const date = new Date(timestamp * 1000); // Convertit en millisecondes
+    const date = new Date(timestamp * 1000); 
     return date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
 }
 
-// Fonction pour créer l'animation appropriée en fonction des conditions météo
 function createWeatherAnimation(conditions) {
     const animationContainer = document.getElementById('weather-animation');
     if (!animationContainer) return;
     
-    animationContainer.innerHTML = ''; // Efface les animations précédentes
+    animationContainer.innerHTML = ''; 
     
-    // Crée différentes animations selon les conditions
     if (conditions.includes('clear sky')) {
         createSunAnimation(animationContainer);
     } else if (conditions.includes('clouds')) {
@@ -134,7 +129,6 @@ function createCloudAnimation(container, conditions) {
         cloudContainer.appendChild(cloud);
     }
     
-    // Si c'est "few clouds", ajouter aussi un soleil derrière les nuages
     if (conditions.includes('few')) {
         const sun = document.createElement('div');
         sun.className = 'sun behind-clouds';
@@ -153,10 +147,8 @@ function createCloudAnimation(container, conditions) {
 
 // Animation pluie
 function createRainAnimation(container, conditions) {
-    // D'abord les nuages
     createCloudAnimation(container, "broken clouds");
     
-    // Puis les gouttes de pluie
     const rainContainer = document.createElement('div');
     rainContainer.className = 'rain-container';
     
@@ -176,12 +168,10 @@ function createRainAnimation(container, conditions) {
     container.appendChild(rainContainer);
 }
 
-// Animation orage
 function createThunderstormAnimation(container) {
-    // D'abord les nuages et la pluie
+
     createRainAnimation(container, "heavy intensity rain");
     
-    // Puis les éclairs
     const lightningContainer = document.createElement('div');
     lightningContainer.className = 'lightning-container';
     
@@ -206,10 +196,8 @@ function createSnowAnimation(container) {
     const snowContainer = document.createElement('div');
     snowContainer.className = 'snow-container';
     
-    // Quelques nuages légers
     createCloudAnimation(container, "few clouds");
     
-    // Flocons de neige
     for (let i = 0; i < 50; i++) {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
@@ -243,26 +231,21 @@ function createMistAnimation(container) {
     container.appendChild(mistContainer);
 }
 
-// Fonction pour mettre à jour l'interface avec l'animation et les styles appropriés
 function updateWeatherUI(data) {
     const weatherSection = document.getElementById('meteo');
     const meteoContent = document.getElementById('meteo-content');
     const conditions = data.weather[0].description;
     
-    // Met à jour le style en fonction des conditions météo
     const background = weatherAnimations.backgrounds[conditions] || 
-                      weatherAnimations.backgrounds["clear sky"]; // Par défaut
+                      weatherAnimations.backgrounds["clear sky"];
     
     weatherSection.style.background = background;
     
-    // Ajuste la couleur du texte
     const textColor = weatherAnimations.getTextColor(conditions);
     meteoContent.style.color = textColor;
     
-    // Crée l'animation appropriée
     createWeatherAnimation(conditions);
     
-    // Affiche un message selon la température
     const temp = data.main.temp;
     let tempMessage = "";
     
@@ -279,8 +262,7 @@ function updateWeatherUI(data) {
     } else {
         tempMessage = "Températures négatives, attention au verglas !";
     }
-    
-    // Ajoute ou met à jour le message de température
+
     let tempMessageElement = document.getElementById('temp-message');
     if (!tempMessageElement) {
         tempMessageElement = document.createElement('p');
@@ -289,7 +271,6 @@ function updateWeatherUI(data) {
     }
     tempMessageElement.innerText = tempMessage;
     
-    // Ajoute l'icône météo OpenWeatherMap si elle n'existe pas déjà
     let weatherIcon = document.getElementById('weather-icon');
     if (!weatherIcon) {
         weatherIcon = document.createElement('img');
@@ -299,17 +280,14 @@ function updateWeatherUI(data) {
         meteoContent.insertBefore(weatherIcon, meteoContent.firstChild);
     }
     
-    // Met à jour l'icône météo
     const iconCode = data.weather[0].icon;
     weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     weatherIcon.alt = translateWeather(conditions);
 }
 
-// Au chargement de la page, ajouter le conteneur d'animation
 document.addEventListener('DOMContentLoaded', () => {
     const meteoSection = document.getElementById('meteo');
     
-    // Crée le conteneur pour les animations météo s'il n'existe pas déjà
     if (!document.getElementById('weather-animation')) {
         const animationContainer = document.createElement('div');
         animationContainer.id = 'weather-animation';
@@ -317,15 +295,13 @@ document.addEventListener('DOMContentLoaded', () => {
         meteoSection.insertBefore(animationContainer, meteoSection.firstChild);
     }
     
-    // Par défaut, montre une animation de ciel dégagé
     createWeatherAnimation('clear sky');
 });
 
 document.getElementById('searchbtn').addEventListener('click', () => {
     const city = document.getElementById('search').value; // Récupère la ville saisie
-    if (!city.trim()) return; // Ne fait rien si le champ est vide
+    if (!city.trim()) return; 
     
-    // Ajoute une classe pour l'animation de chargement
     document.getElementById('meteo').classList.add('loading');
     
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
@@ -336,14 +312,14 @@ document.getElementById('searchbtn').addEventListener('click', () => {
             return response.json();
         })
         .then(data => {
-            const temperature = data.main.temp; // Température actuelle
-            const feelsLike = data.main.feels_like; // Température ressentie
-            const conditions = data.weather[0].description; // Conditions météo
+            const temperature = data.main.temp; 
+            const feelsLike = data.main.feels_like; 
+            const conditions = data.weather[0].description; 
             const translatedConditions = translateWeather(conditions);
-            const sunrise = convertTimestampToTime(data.sys.sunrise); // Lever du soleil
-            const sunset = convertTimestampToTime(data.sys.sunset); // Coucher du soleil
-            const humidity = data.main.humidity; // Humidité
-            const windSpeed = data.wind.speed; // Vitesse du vent
+            const sunrise = convertTimestampToTime(data.sys.sunrise); 
+            const sunset = convertTimestampToTime(data.sys.sunset); 
+            const humidity = data.main.humidity; 
+            const windSpeed = data.wind.speed; 
 
             document.getElementById('temperature').innerText = `Température : ${temperature.toFixed(1)} °C`;
             document.getElementById('feelsLike').innerText = `Température ressentie : ${feelsLike.toFixed(1)} °C`;
@@ -351,7 +327,6 @@ document.getElementById('searchbtn').addEventListener('click', () => {
             document.getElementById('sunrise').innerText = `Lever du soleil : ${sunrise}`;
             document.getElementById('sunset').innerText = `Coucher du soleil : ${sunset}`;
             
-            // Ajoute des informations supplémentaires si elles n'existent pas déjà
             let humidityElement = document.getElementById('humidity');
             if (!humidityElement) {
                 humidityElement = document.createElement('p');
@@ -370,15 +345,13 @@ document.getElementById('searchbtn').addEventListener('click', () => {
             }
             windElement.innerText = `Vent : ${windSpeed} m/s`;
             
-            // Met à jour l'interface avec les styles et animations appropriés
             updateWeatherUI(data);
             
-            // Supprime la classe de chargement
             document.getElementById('meteo').classList.remove('loading');
         })
         .catch(error => {
             console.error('Erreur :', error);
-            // Affiche un message d'erreur
+
             let errorElement = document.getElementById('error-message');
             if (!errorElement) {
                 errorElement = document.createElement('p');
@@ -388,10 +361,8 @@ document.getElementById('searchbtn').addEventListener('click', () => {
             }
             errorElement.innerText = `Ville non trouvée. Vérifiez l'orthographe et réessayez.`;
             
-            // Supprime la classe de chargement
             document.getElementById('meteo').classList.remove('loading');
-            
-            // Faire disparaître le message d'erreur après 4 secondes
+
             setTimeout(() => {
                 errorElement.style.opacity = '0';
                 setTimeout(() => {
@@ -402,38 +373,37 @@ document.getElementById('searchbtn').addEventListener('click', () => {
 });
 
 const searchInput = document.getElementById('search');
-const suggestionBox = document.getElementById('suggestions'); // Crée un élément pour les suggestions
+const suggestionBox = document.getElementById('suggestions');
 
 searchInput.addEventListener('input', function() {
     const query = searchInput.value;
 
-    if (query.length > 2) { // Rechercher seulement si la saisie est assez longue
+    if (query.length > 2) { 
         fetch(`https://api.openweathermap.org/data/2.5/find?q=${query}&appid=${apiKey}`)
             .then(response => response.json())
             .then(data => {
-                suggestionBox.innerHTML = ''; // Vider les anciennes suggestions
-                const uniqueCities = new Set(); // Utiliser un Set pour éviter les doublons
+                suggestionBox.innerHTML = '';
+                const uniqueCities = new Set(); 
 
                 if (data.list && data.list.length > 0) {
                     data.list.forEach(city => {
                         if (city.sys && city.sys.country) {
                             const cityName = `${city.name}, ${city.sys.country}`;
-                            if (!uniqueCities.has(cityName)) { // Vérifier si la ville a déjà été ajoutée
-                                uniqueCities.add(cityName); // Ajouter la ville au Set
+                            if (!uniqueCities.has(cityName)) { 
+                                uniqueCities.add(cityName); 
                                 const option = document.createElement('div');
-                                option.textContent = cityName; // Afficher le nom de la ville et le pays
+                                option.textContent = cityName; 
                                 option.onclick = () => {
-                                    searchInput.value = option.textContent; // Remplir le champ de recherche avec la ville sélectionnée
-                                    suggestionBox.innerHTML = ''; // Effacer les suggestions
-                                    // Déclencher la recherche automatiquement
+                                    searchInput.value = option.textContent;
+                                    suggestionBox.innerHTML = ''; 
+
                                     document.getElementById('searchbtn').click();
                                 };
-                                suggestionBox.appendChild(option); // Ajouter l'option à la boîte de suggestions
+                                suggestionBox.appendChild(option);
                             }
                         }
                     });
                 } else {
-                    // Aucun résultat trouvé
                     const noResult = document.createElement('div');
                     noResult.textContent = "Aucun résultat trouvé";
                     noResult.className = "no-result";
@@ -442,19 +412,17 @@ searchInput.addEventListener('input', function() {
             })
             .catch(error => console.error('Erreur :', error));
     } else {
-        suggestionBox.innerHTML = ''; // Effacer les suggestions si la saisie est vide
+        suggestionBox.innerHTML = '';
     }
 });
 
-// Masquer les suggestions si l'utilisateur clique en dehors de l'input
 document.addEventListener('click', function(event) {
     const isClickInside = searchInput.contains(event.target) || suggestionBox.contains(event.target);
     if (!isClickInside) {
-        suggestionBox.innerHTML = ''; // Effacer les suggestions
+        suggestionBox.innerHTML = '';
     }
 });
 
-// Gérer la touche Entrée pour déclencher la recherche
 searchInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
@@ -462,24 +430,20 @@ searchInput.addEventListener('keypress', function(event) {
     }
 });
 
-// Ajouter une fonction pour la géolocalisation
 function getWeatherByGeolocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             position => {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                
-                // Afficher un message de chargement
+
                 document.getElementById('meteo').classList.add('loading');
                 
                 fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`)
                     .then(response => response.json())
                     .then(data => {
-                        // Mettre à jour le champ de recherche avec le nom de la ville trouvée
                         document.getElementById('search').value = `${data.name}, ${data.sys.country}`;
-                        
-                        // Mettre à jour les informations météo
+
                         const temperature = data.main.temp;
                         const feelsLike = data.main.feels_like;
                         const conditions = data.weather[0].description;
@@ -495,7 +459,6 @@ function getWeatherByGeolocation() {
                         document.getElementById('sunrise').innerText = `Lever du soleil : ${sunrise}`;
                         document.getElementById('sunset').innerText = `Coucher du soleil : ${sunset}`;
                         
-                        // Ajoute des informations supplémentaires si elles n'existent pas déjà
                         let humidityElement = document.getElementById('humidity');
                         if (!humidityElement) {
                             humidityElement = document.createElement('p');
@@ -513,11 +476,9 @@ function getWeatherByGeolocation() {
                             document.getElementById('meteo-content').appendChild(windElement);
                         }
                         windElement.innerText = `Vent : ${windSpeed} m/s`;
-                        
-                        // Met à jour l'interface avec les styles et animations appropriés
+
                         updateWeatherUI(data);
-                        
-                        // Supprime la classe de chargement
+
                         document.getElementById('meteo').classList.remove('loading');
                     })
                     .catch(error => {
@@ -527,7 +488,6 @@ function getWeatherByGeolocation() {
             },
             error => {
                 console.error("Erreur de géolocalisation :", error);
-                // Afficher un message d'erreur à l'utilisateur
                 alert("Impossible d'obtenir votre position. Veuillez autoriser l'accès à la géolocalisation ou rechercher manuellement.");
             }
         );
@@ -536,11 +496,9 @@ function getWeatherByGeolocation() {
     }
 }
 
-// Ajouter un bouton de géolocalisation après le chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
     const searchContainer = document.querySelector("#meteo div:first-of-type");
     
-    // Crée le bouton de géolocalisation s'il n'existe pas déjà
     if (!document.getElementById('geolocBtn')) {
         const geolocBtn = document.createElement('button');
         geolocBtn.id = 'geolocBtn';
@@ -617,7 +575,6 @@ const responses = [
 
 ];
 
-// Fonction de distance de Levenshtein pour comparer les mots
 function levenshteinDistance(s1, s2) {
     const len1 = s1.length;
     const len2 = s2.length;
@@ -630,21 +587,19 @@ function levenshteinDistance(s1, s2) {
         for (let j = 1; j <= len2; j++) {
             const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
             dp[i][j] = Math.min(
-                dp[i - 1][j] + 1,    // Suppression
-                dp[i][j - 1] + 1,    // Insertion
-                dp[i - 1][j - 1] + cost // Substitution
+                dp[i - 1][j] + 1,   
+                dp[i][j - 1] + 1,   
+                dp[i - 1][j - 1] + cost 
             );
         }
     }
     return dp[len1][len2];
 }
 
-// Fonction pour obtenir la réponse la plus proche
 function getBotResponse(userInput) {
     let bestMatch = '';
-    let bestScore = Infinity; // Plus c'est petit, plus c'est proche
+    let bestScore = Infinity; 
 
-    // Normaliser l'entrée de l'utilisateur
     const normalizedUserInput = userInput.toLowerCase().trim();
 
     responses.forEach(item => {
@@ -658,15 +613,13 @@ function getBotResponse(userInput) {
         });
     });
 
-    // Si la meilleure correspondance est trop éloignée, renvoyer une réponse par défaut
     if (bestScore > 3) {
         bestMatch = "Désolé, je n'ai pas compris votre demande.";
     }
 
-    appendMessage(bestMatch, 'bot');  // Ajouter la réponse du chatbot au chat
+    appendMessage(bestMatch, 'bot');  
 }
 
-// Fonction pour ajouter un message au chat
 function appendMessage(message, sender) {
     const chatLog = document.getElementById('chat-log');
     const messageElement = document.createElement('div');
@@ -676,7 +629,6 @@ function appendMessage(message, sender) {
     chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-// Fonction pour envoyer le message
 document.getElementById('send-message').addEventListener('click', function() {
     const userInput = document.getElementById('user-input').value;
     
@@ -703,95 +655,75 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 
-// Attendre que la page soit load avant d'exécuter updateClock()
 document.addEventListener('DOMContentLoaded', updateClock);
 
 
 
-
-// Correction de la fonction d'affichage plein écran
 document.addEventListener("DOMContentLoaded", () => {
-    // Sélectionne toutes les sections avec la classe preview
     const sections = document.querySelectorAll(".preview");
     
     sections.forEach(section => {
       section.addEventListener("click", function(e) {
-        // Vérifie que le clic n'est pas sur un élément interactif comme un bouton ou un input
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') {
           return;
         }
         
         console.log("Section cliquée:", this.id);
-        
-        // Vérifie si une section est déjà en plein écran
+
         const fullscreenElement = document.querySelector(".fullscreen");
         if (fullscreenElement) {
           console.log("Une section est déjà en plein écran");
           return;
         }
-        
-        // Ajout de l'effet de transition pour le corps
+
         document.body.style.overflow = 'hidden';
-        
-        // Enlève la classe preview et ajoute la classe fullscreen
+
         this.classList.remove("preview");
         this.classList.add("fullscreen");
         
         document.getElementById('suggestions').style.display = 'none';
-
-        // Enregistre la position de défilement
         this.dataset.scrollPos = window.scrollY;
         
-        // Crée le bouton de fermeture
+
         const closeBtn = document.createElement("button");
         closeBtn.textContent = "Fermer";
         closeBtn.classList.add("close-btn");
-        
-        // Ajoute un petit délai pour que l'animation d'entrée soit visible
+
         setTimeout(() => {
           this.appendChild(closeBtn);
         }, 200);
         
-        // Ajoute l'événement de clic au bouton de fermeture
         closeBtn.addEventListener("click", (e) => {
-          e.stopPropagation(); // Empêche la propagation du clic
+          e.stopPropagation();
           closeFullscreen(this);
         });
-        
-        // Ajouter un gestionnaire pour la touche Escape
+
         document.addEventListener("keydown", handleEscapeKey);
       });
     });
-    
-    // Fonction pour fermer le mode plein écran
+
     function closeFullscreen(element) {
-      // Ajoute la classe de sortie pour l'animation
+
       element.classList.add("fullscreen-exit");
-      
-      // Supprime les classes après l'animation
+
       setTimeout(() => {
         element.classList.remove("fullscreen");
         element.classList.remove("fullscreen-exit");
         element.classList.add("preview");
-        
-        // Restaure le défilement du corps
+     
         document.body.style.overflow = '';
-        
-        // Restaure la position de défilement
+ 
         if (element.dataset.scrollPos) {
           window.scrollTo(0, parseInt(element.dataset.scrollPos));
         }
-        
-        // Supprime le bouton de fermeture
+
         const closeBtn = element.querySelector(".close-btn");
         if (closeBtn) closeBtn.remove();
-        
-        // Supprime le gestionnaire de touche Escape
+
         document.removeEventListener("keydown", handleEscapeKey);
-      }, 300); // Correspond à la durée de l'animation de sortie
+      }, 300); 
     }
-    
-    // Fonction pour gérer la touche Escape
+
     function handleEscapeKey(e) {
       if (e.key === "Escape") {
         const fullscreenElement = document.querySelector(".fullscreen");
@@ -805,12 +737,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('search').addEventListener('input', function() {
     const searchBox = document.getElementById('search');
     const suggestionsBox = document.getElementById('suggestions');
-    
-    // Si le champ de recherche n'est pas vide, on affiche la boîte de suggestions
+
     if (searchBox.value.trim() !== '') {
         suggestionsBox.style.display = 'block';
     } else {
-        // Sinon on cache la boîte de suggestions
+
         suggestionsBox.style.display = 'none';
     }
 });
@@ -818,5 +749,5 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById('search').addEventListener('blur', function() {
     setTimeout(() => {
         document.getElementById('suggestions').style.display = 'none';
-    }, 300); // Attendre 300ms avant de cacher
+    }, 300); 
 });
