@@ -3,24 +3,24 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column; /* Aligne les sections verticalement */
-    height: 100vh; /* Remplit la hauteur de la fenêtre */
+    flex-direction: column;
+    height: 100vh;
 }
 
 main {
-    flex: 1; /* Permet au main de prendre tout l'espace disponible */
+    flex: 1; 
     display: flex; 
-    flex-wrap: wrap; /* Permet aux sections de s'organiser sur plusieurs lignes */
-    position: relative; /* Position relative pour le centrage de l'heure */
+    flex-wrap: wrap; 
+    position: relative; 
 }
 
 section:not(#heure){
-    width: 50%; /* Chaque section utilise 50% de la largeur */
-    height: 50%; /* Chaque section utilise 50% de la hauteur */
+    width: 50%; 
+    height: 50%; 
     padding: 20px;
-    box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur */
-    border: 1px solid #ccc; /* Bordure pour voir les sections */
-    overflow: auto; /* Permet le défilement si le contenu dépasse */
+    box-sizing: border-box; 
+    border: 1px solid #ccc; /
+    overflow: auto;
 }
 
 section:not(#heure) h2 {
@@ -57,21 +57,20 @@ section:not(#heure) div{
 }
 
 #heure {
-    position: absolute; /* Positionne l'heure de manière absolue */
-    top: 50%; /* Centre verticalement */
-    left: 50%; /* Centre horizontalement */
-    transform: translate(-50%, -50%); /* Ajuste la position pour centrer */
-    width: 250px; /* Largeur fixe */
-    height: 120px; /* Hauteur minimale */
-    padding: 20px; /* Ajoute du padding */
-    z-index: 10; /* Assure que l'heure est au-dessus des autres sections */
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 250px; 
+    height: 120px; 
+    padding: 20px; 
+    z-index: 10;
     border: none;
     font-size: 2em;
     color: #333;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
 
-    /* Ajout pour centrer le texte verticalement */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,7 +79,7 @@ section:not(#heure) div{
 }
 
 #heure h2{
-    margin-bottom: 5px; /*espace entre h2 et p*/
+    margin-bottom: 5px;
 }
 
 #heure p{
@@ -126,61 +125,57 @@ input[type="text"]{
 }
 
 #suggestions div {
-    padding: 5px; /* Padding autour de chaque suggestion */
+    padding: 5px;
     cursor: pointer;
-    margin: 0; /* Pas de marge pour éviter l'espacement inutile */
-    width: 100%; /* S'assure que chaque suggestion remplit la largeur de la boîte */
-    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
+    margin: 0; 
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
 #suggestions div:hover {
-    background-color: #f0f0f0; /* Changement de couleur au survol */
+    background-color: #f0f0f0;
 }
 
 
 footer {
-    text-align: center; /* Centre le texte du footer */
-    padding: 10px; /* Ajoute un peu de padding */
+    text-align: center; 
+    padding: 10px; 
 }
 
 #news-container {
-    max-height: 400px; /* Limite la hauteur du conteneur */
-    overflow-y: auto; /* Ajoute une barre de défilement verticale si le contenu dépasse */
-    padding: 30px; /* Optionnel : ajout de l'espace interne */
-    border-radius: 4px; /* Optionnel : arrondir les coins */
-    background-color: #f9f9f9; /* Optionnel : couleur de fond */
+    max-height: 400px; 
+    overflow-y: auto; 
+    padding: 30px; 
+    border-radius: 4px; 
+    background-color: #f9f9f9; 
 }
 
 .news-item {
-    margin-bottom: 15px; /* Espacement entre les articles */
-    border-bottom: 1px solid #ddd; /* Ligne de séparation entre les articles */
-    padding-bottom: 10px; /* Espacement interne */
+    margin-bottom: 15px; 
+    border-bottom: 1px solid #ddd; 
+    padding-bottom: 10px; 
 }
 
 .news-item:last-child {
-    border-bottom: none; /* Enlever la ligne du dernier article */
+    border-bottom: none; 
 }
 
 
-/*Affichage aperçu
-/* Désactive l'interaction par défaut */
 .preview {
     transition: all 0.3s ease-in-out;
-    transform: scale(1); /* Taille normale */
+    transform: scale(1); 
     position: relative;
     z-index: 1;
 }
 
-/* Quand on survole une section, elle devient interactive */
 .preview:hover {
     filter: blur(0);
     cursor: pointer;
-    transform: scale(1.02); /* Légèrement agrandir */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Ajouter une ombre */
+    transform: scale(1.02); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
 }
 
 /* Quand une section est en plein écran */
-/* Animation pour l'entrée en plein écran */
 @keyframes fullscreenEnter {
     from {
       opacity: 0;
@@ -204,7 +199,6 @@ footer {
     }
   }
   
-  /* Style de base pour les sections */
   .preview {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
@@ -216,7 +210,6 @@ footer {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
   
-  /* Quand une section est en plein écran */
   .fullscreen {
     position: fixed !important;
     top: 0 !important;
@@ -233,11 +226,10 @@ footer {
     animation: fullscreenExit 0.3s ease forwards;
   }
   
-  /* Nouveau style pour le bouton de fermeture */
   .close-btn {
     position: absolute;
     top: 15px;
-    right: 15px; /* Changé de left à right */
+    right: 15px; 
     padding: 10px 15px;
     background: rgba(255, 255, 255, 0.2);
     color: white;
@@ -255,7 +247,6 @@ footer {
     transform: scale(1.05);
   }
   
-  /* Animation pour les titres */
   .fullscreen h2 {
     font-size: 50px !important;
     text-align: center;
@@ -273,7 +264,6 @@ footer {
     }
   }
   
-  /* Animation pour le contenu */
   .fullscreen > div {
     opacity: 0;
     transform: translateY(20px);
