@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fullscreenMeteo.css">
+    <!--<link rel="website icon" type="png" href="image">-->
+    <title>MonTableau</title>
+    
+</head>
+<body>
+<!--
+    <header>
+        <h1>MonTableau</h1>
+    </header>
+-->
+    <main>
+    <section id="meteo" class="preview">
+        <h2>Météo</h2>
+        <div>
+            <input type="text" placeholder="Lieu" id="search" aria-label="Rechercher un lieu">
+            <button id="searchbtn" aria-label="Bouton de recherche">Rechercher</button>
+            <div id="suggestions"></div>
+        </div>
+        <div id="meteo-content">
+            <p id="temperature" aria-live="polite">Température : </p>
+            <p id="conditions" aria-live="polite">Conditions : </p>
+            <p id="feelsLike" aria-live="polite">Température ressentie : </p>
+            <p id="sunrise" aria-live="polite">Levé de soleil : </p>
+            <p id="sunset" aira-live="polite">Couché de soleil :</p>
+        </div>
+    </section>
+
+    <section id="news" class="preview">
+        <h2>Actualités</h2>
+        <div id="news-container"></div>
+    </section>
+
+    <section id="To-Do-List" class="preview">
+        <h2>To-Do-List</h2>
+        <div>
+            <input type="text" placeholder="Tâche" id="task" aria-label="Nouvelle tâche">
+            <button id ="add-task" aria-label="Ajouter une tâche">Ajouter</button>
+        </div>
+        <ul id="task-list">
+            
+        </ul>
+    </section>
+
+    <section id="Chatbot" class="preview">
+        <h2>Chatbot</h2>
+        <div id="chatbox">
+            <div id="chat-log"></div>
+            <input type="text" placeholder="Écrire un message..." id="user-input">
+            <button id="send-message">Envoyer</button>
+        </div>
+    </section>    
+    
+
+    </main>
+    <section id="heure">
+        <h2>Heure</h2>
+        <p id="time">00:00:00</p>
+    </section>
+    <footer>
+        <p>Fait par Ant-V</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
