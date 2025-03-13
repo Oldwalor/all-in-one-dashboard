@@ -124,18 +124,19 @@
     
 
     /*Animation*/
-    .weather-animation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 0;
-      pointer-events: none;
-    }
+/* Animation principale - Conteneur plein écran */
+.weather-animation {
+  position: fixed; /* Changé de 'absolute' à 'fixed' pour couvrir tout l'écran */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh; /* Utilisation de 100vh pour couvrir toute la hauteur visible */
+  overflow: hidden;
+  z-index: -1; /* Placé sous le contenu principal */
+  pointer-events: none;
+}
   
         
     /* Animation de chargement */
@@ -204,24 +205,25 @@
     }
     
     /* Animation de la pluie */
+
     .rain-container {
-        top: 0%;
-        left: -40%; 
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 3;
+    position: absolute;
+    width: 100%; 
+    height: 100%;
+    left: -25%; 
+    right: 0;
+    overflow: hidden;
+    z-index: 3;
     }
-        
+
     .rain-drop {
-        position: absolute;
-        width: 2px;
-        height: 20px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 0 0 5px 5px;
-        animation: rain-fall linear infinite;
-        top: -20px;
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 0 0 5px 5px;
+    animation: rain-fall linear infinite;
+    top: -10px;
     }
         
 
@@ -235,12 +237,14 @@
       filter: blur(1px);
     }
 
+    /* Amélioration des nuages */
     .cloud-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-    }
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    left: -50%;
+    z-index: 2;
+    } 
     
     .cloud {
       position: absolute;
@@ -272,8 +276,9 @@
     /* Animation de l'orage */
     .lightning-container {
       position: absolute;
-      width: 100%;
+      width: 200%;
       height: 100%;
+      left: -50%;
       z-index: 4;
     }
     
@@ -295,8 +300,9 @@
     /* Animation de la neige */
     .snow-container {
       position: absolute;
-      width: 100%;
+      width: 200%;
       height: 100%;
+      left: -50%;
       overflow: hidden;
       z-index: 3;
     }
@@ -330,8 +336,9 @@
     /* Animation du brouillard */
     .mist-container {
       position: absolute;
-      width: 100%;
+      width: 300%; /* Extra large pour un meilleur effet */
       height: 100%;
+      left: -100%;
       overflow: hidden;
       z-index: 2;
     }

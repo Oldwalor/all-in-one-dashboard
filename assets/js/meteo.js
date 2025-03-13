@@ -1,5 +1,4 @@
 const apiKey = '';
-
 // Animation et effets visuels basés sur les conditions météorologiques
 const weatherAnimations = {
     backgrounds: {
@@ -102,9 +101,9 @@ function createSunAnimation(container) {
 
 // Animation nuages
 function createCloudAnimation(container, conditions) {
-    const cloudCount = conditions.includes('few') ? 2 : 
-                      conditions.includes('scattered') ? 3 : 
-                      conditions.includes('broken') ? 4 : 5;
+    const cloudCount = conditions.includes('few') ? 4 : 
+                      conditions.includes('scattered') ? 6 : 
+                      conditions.includes('broken') ? 8 : 10;
     
     const cloudContainer = document.createElement('div');
     cloudContainer.className = 'cloud-container';
@@ -112,11 +111,11 @@ function createCloudAnimation(container, conditions) {
     for (let i = 0; i < cloudCount; i++) {
         const cloud = document.createElement('div');
         cloud.className = 'cloud';
-        cloud.style.left = `${Math.random() * 80}%`;
-        cloud.style.top = `${Math.random() * 60}%`;
-        cloud.style.animationDuration = `${Math.random() * 30 + 50}s`;
-        cloud.style.opacity = `${Math.random() * 0.4 + 0.6}`;
-        cloud.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+        cloud.style.left = `${Math.random() * 150}%`;  // Distribution plus large
+        cloud.style.top = `${Math.random() * 80}%`;    // Distribution plus haute
+        cloud.style.animationDuration = `${Math.random() * 60 + 60}s`; // Plus lent pour un effet plus naturel
+        cloud.style.opacity = `${Math.random() * 0.5 + 0.5}`;
+        cloud.style.transform = `scale(${Math.random() * 0.7 + 0.8})`; // Nuages plus grands
         
         cloud.innerHTML = `
             <svg viewBox="0 0 100 60" width="150" height="90">
@@ -142,6 +141,7 @@ function createCloudAnimation(container, conditions) {
     container.appendChild(cloudContainer);
 }
 
+
 // Animation pluie
 function createRainAnimation(container, conditions) {
     createCloudAnimation(container, "broken clouds");
@@ -149,16 +149,17 @@ function createRainAnimation(container, conditions) {
     const rainContainer = document.createElement('div');
     rainContainer.className = 'rain-container';
     
-    const intensity = conditions.includes('light') ? 20 : 
-                     conditions.includes('moderate') ? 40 : 
-                     conditions.includes('heavy') ? 70 : 30;
+    const intensity = conditions.includes('light') ? 40 : 
+                     conditions.includes('moderate') ? 80 : 
+                     conditions.includes('heavy') ? 150 : 60;
     
     for (let i = 0; i < intensity; i++) {
         const drop = document.createElement('div');
         drop.className = 'rain-drop';
-        drop.style.left = `${Math.random() * 100}%`;
-        drop.style.animationDuration = `${Math.random() * 0.5 + 0.5}s`;
-        drop.style.animationDelay = `${Math.random() * 2}s`;
+        drop.style.left = `${Math.random() * 100}%`; 
+        drop.style.animationDuration = `${Math.random() * 0.7 + 0.5}s`;
+        drop.style.animationDelay = `${Math.random() * 3}s`;
+        drop.style.height = `${Math.random() * 15 + 15}px`; 
         rainContainer.appendChild(drop);
     }
     
@@ -166,17 +167,16 @@ function createRainAnimation(container, conditions) {
 }
 
 function createThunderstormAnimation(container) {
-
     createRainAnimation(container, "heavy intensity rain");
     
     const lightningContainer = document.createElement('div');
     lightningContainer.className = 'lightning-container';
     
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 6; i++) { // Plus d'éclairs
         const lightning = document.createElement('div');
         lightning.className = 'lightning';
-        lightning.style.left = `${Math.random() * 80 + 10}%`;
-        lightning.style.animationDelay = `${Math.random() * 5 + i * 2}s`;
+        lightning.style.left = `${Math.random() * 150 + 25}%`; // Distribution plus large
+        lightning.style.animationDelay = `${Math.random() * 8 + i * 2}s`;
         lightning.innerHTML = `
             <svg viewBox="0 0 32 80" width="32" height="80">
                 <path d="M15,0 L12,30 L20,35 L5,80 L8,45 L0,40 Z" fill="#ffeb3b" />
@@ -195,14 +195,14 @@ function createSnowAnimation(container) {
     
     createCloudAnimation(container, "few clouds");
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) { // Plus de flocons
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
-        snowflake.style.left = `${Math.random() * 100}%`;
-        snowflake.style.animationDuration = `${Math.random() * 3 + 5}s`;
-        snowflake.style.animationDelay = `${Math.random() * 5}s`;
+        snowflake.style.left = `${Math.random() * 200}%`; // Distribution plus large
+        snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+        snowflake.style.animationDelay = `${Math.random() * 7}s`;
         snowflake.innerHTML = "*";
-        snowflake.style.fontSize = `${Math.random() * 10 + 10}px`;
+        snowflake.style.fontSize = `${Math.random() * 15 + 8}px`; // Variété de tailles
         snowflake.style.opacity = `${Math.random() * 0.6 + 0.4}`;
         snowContainer.appendChild(snowflake);
     }
@@ -215,12 +215,12 @@ function createMistAnimation(container) {
     const mistContainer = document.createElement('div');
     mistContainer.className = 'mist-container';
     
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 8; i++) { // Plus de couches
         const mistLayer = document.createElement('div');
         mistLayer.className = 'mist-layer';
-        mistLayer.style.top = `${i * 20}%`;
-        mistLayer.style.animationDuration = `${Math.random() * 10 + 15}s`;
-        mistLayer.style.animationDelay = `${Math.random() * 5}s`;
+        mistLayer.style.top = `${i * 15}%`;
+        mistLayer.style.animationDuration = `${Math.random() * 15 + 20}s`;
+        mistLayer.style.animationDelay = `${Math.random() * 8}s`;
         mistLayer.style.opacity = `${Math.random() * 0.3 + 0.2}`;
         mistContainer.appendChild(mistLayer);
     }
