@@ -111,11 +111,11 @@ function createCloudAnimation(container, conditions) {
     for (let i = 0; i < cloudCount; i++) {
         const cloud = document.createElement('div');
         cloud.className = 'cloud';
-        cloud.style.left = `${Math.random() * 150}%`;  // Distribution plus large
-        cloud.style.top = `${Math.random() * 80}%`;    // Distribution plus haute
-        cloud.style.animationDuration = `${Math.random() * 60 + 60}s`; // Plus lent pour un effet plus naturel
+        cloud.style.left = `${Math.random() * 150}%`; 
+        cloud.style.top = `${Math.random() * 80}%`;   
+        cloud.style.animationDuration = `${Math.random() * 60 + 60}s`;
         cloud.style.opacity = `${Math.random() * 0.5 + 0.5}`;
-        cloud.style.transform = `scale(${Math.random() * 0.7 + 0.8})`; // Nuages plus grands
+        cloud.style.transform = `scale(${Math.random() * 0.7 + 0.8})`; 
         
         cloud.innerHTML = `
             <svg viewBox="0 0 100 60" width="150" height="90">
@@ -172,10 +172,10 @@ function createThunderstormAnimation(container) {
     const lightningContainer = document.createElement('div');
     lightningContainer.className = 'lightning-container';
     
-    for (let i = 0; i < 6; i++) { // Plus d'éclairs
+    for (let i = 0; i < 6; i++) {
         const lightning = document.createElement('div');
         lightning.className = 'lightning';
-        lightning.style.left = `${Math.random() * 150 + 25}%`; // Distribution plus large
+        lightning.style.left = `${Math.random() * 150 + 25}%`; 
         lightning.style.animationDelay = `${Math.random() * 8 + i * 2}s`;
         lightning.innerHTML = `
             <svg viewBox="0 0 32 80" width="32" height="80">
@@ -195,14 +195,14 @@ function createSnowAnimation(container) {
     
     createCloudAnimation(container, "few clouds");
     
-    for (let i = 0; i < 100; i++) { // Plus de flocons
+    for (let i = 0; i < 100; i++) { 
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
-        snowflake.style.left = `${Math.random() * 200}%`; // Distribution plus large
+        snowflake.style.left = `${Math.random() * 200}%`;
         snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
         snowflake.style.animationDelay = `${Math.random() * 7}s`;
         snowflake.innerHTML = "*";
-        snowflake.style.fontSize = `${Math.random() * 15 + 8}px`; // Variété de tailles
+        snowflake.style.fontSize = `${Math.random() * 15 + 8}px`;
         snowflake.style.opacity = `${Math.random() * 0.6 + 0.4}`;
         snowContainer.appendChild(snowflake);
     }
@@ -215,7 +215,7 @@ function createMistAnimation(container) {
     const mistContainer = document.createElement('div');
     mistContainer.className = 'mist-container';
     
-    for (let i = 0; i < 8; i++) { // Plus de couches
+    for (let i = 0; i < 8; i++) { 
         const mistLayer = document.createElement('div');
         mistLayer.className = 'mist-layer';
         mistLayer.style.top = `${i * 15}%`;
@@ -282,31 +282,25 @@ function updateWeatherUI(data) {
     weatherIcon.alt = translateWeather(conditions);
 }
 
-    // Remplacez ce code dans votre fichier JavaScript
     document.addEventListener('DOMContentLoaded', () => {
     const meteoSection = document.getElementById('meteo');
-    
-    // Supprimez l'animation existante si elle existe
+
     const existingAnimation = document.getElementById('weather-animation');
     if (existingAnimation) {
         existingAnimation.remove();
     }
-    
-    // Créez le nouvel élément d'animation
+
     const animationContainer = document.createElement('div');
     animationContainer.id = 'weather-animation';
     animationContainer.className = 'weather-animation';
-    
-    // Ajoutez-le comme premier enfant de la section météo
+
     meteoSection.appendChild(animationContainer);
-    
-    // Assurez-vous que cet élément est avant les autres contenus visuellement
-    // mais derrière en termes de z-index
+
     createWeatherAnimation('clear sky');
 });
 
 document.getElementById('searchbtn').addEventListener('click', () => {
-    const city = document.getElementById('search').value; // Récupère la ville saisie
+    const city = document.getElementById('search').value; 
     if (!city.trim()) return; 
     
     document.getElementById('meteo').classList.add('loading');
