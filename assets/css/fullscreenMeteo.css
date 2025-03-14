@@ -29,7 +29,6 @@
     }
   }
 
-   /* Style pour le conteneur de recherche en fullscreen */
    #meteo.fullscreen div:first-of-type {
     display: flex;
     justify-content: center;
@@ -53,7 +52,7 @@
        }
   
     #meteo.fullscreen #suggestions div {
-      padding: 12px 15px; /* Padding plus généreux */
+      padding: 12px 15px; 
       cursor: pointer;
       margin: 0;
       width: 100%;
@@ -64,7 +63,7 @@
     }
   
     #meteo.fullscreen #suggestions div:hover {
-      background-color: #00332e; /* Changement de couleur au survol */
+      background-color: #00332e;
   }
   
 
@@ -124,22 +123,19 @@
     
 
     /*Animation*/
-/* Animation principale - Conteneur plein écran */
 .weather-animation {
-  position: fixed; /* Changé de 'absolute' à 'fixed' pour couvrir tout l'écran */
+  position: fixed; 
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 100vh; /* Utilisation de 100vh pour couvrir toute la hauteur visible */
+  height: 100vh; 
   overflow: hidden;
-  z-index: -1; /* Placé sous le contenu principal */
+  z-index: -1; 
   pointer-events: none;
 }
   
-        
-    /* Animation de chargement */
     #meteo.loading #meteo-content {
         opacity: 0.6;
     }
@@ -164,14 +160,13 @@
         100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
     
-    /* Animation du soleil */
     .sun {
         position: absolute;
-        top: 10%; /* Centre verticalement */
-        left: -30%; /* Centre horizontalement */
-        transform: translate(-50%, -50%); /* Corrige le centrage */
-        z-index: 10; /* S'assure qu'il est au-dessus */
-        pointer-events: none; /* Empêche les clics sur le soleil */
+        top: 10%; 
+        left: -30%; 
+        transform: translate(-50%, -50%); 
+        z-index: 10;
+        pointer-events: none;
         width: 150px;
         height: 150px;
         animation: float 30s ease-in-out infinite;
@@ -336,7 +331,7 @@
     /* Animation du brouillard */
     .mist-container {
       position: absolute;
-      width: 300%; /* Extra large pour un meilleur effet */
+      width: 300%;
       height: 100%;
       left: -100%;
       overflow: hidden;
@@ -418,7 +413,6 @@
       100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-/* Assurez-vous que le conteneur météo a un arrière-plan avec un dégradé */
 #meteo.fullscreen {
     background: linear-gradient(135deg, #00796b, #004d40) !important;
 }
