@@ -500,17 +500,7 @@ function getWeatherByGeolocation() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const searchContainer = document.querySelector("#meteo div:first-of-type");
-    
-    if (!document.getElementById('geolocBtn')) {
-        const geolocBtn = document.createElement('button');
-        geolocBtn.id = 'geolocBtn';
-        geolocBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>';
-        geolocBtn.setAttribute('aria-label', 'Utiliser ma position');
-        geolocBtn.title = 'Utiliser ma position';
-        geolocBtn.onclick = getWeatherByGeolocation;
-        
-        searchContainer.insertBefore(geolocBtn, document.getElementById('searchbtn'));
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("geolocBtn").addEventListener("click", getWeatherByGeolocation);
 });
+

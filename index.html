@@ -20,9 +20,19 @@
         <h2>Météo</h2>
         <div>
             <input type="text" placeholder="Lieu" id="search" aria-label="Rechercher un lieu">
+            <button id="geolocBtn" title="Utiliser ma position">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                    <line x1="12" y1="2" x2="12" y2="4"></line>
+                    <line x1="12" y1="20" x2="12" y2="22"></line>
+                    <line x1="2" y1="12" x2="4" y2="12"></line>
+                    <line x1="20" y1="12" x2="22" y2="12"></line>
+                </svg>
+            </button>  
             <button id="searchbtn" aria-label="Bouton de recherche">Rechercher</button>
             <div id="suggestions"></div>
-        </div>
+        </div>      
         <div id="meteo-content">
             <p id="temperature" aria-live="polite">Température : </p>
             <p id="conditions" aria-live="polite">Conditions : </p>

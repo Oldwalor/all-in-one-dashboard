@@ -229,3 +229,190 @@ document.getElementById('search').addEventListener('blur', function() {
         document.getElementById('suggestions').style.display = 'none';
     }, 300); 
 });
+
+function blockMeteoInteractions() {
+  const meteoSection = document.getElementById('meteo');
+  const searchInput = document.getElementById('search');
+  const geolocBtn = document.getElementById('geolocBtn');
+  const searchBtn = document.getElementById('searchbtn');
+  const suggestions = document.getElementById('suggestions');
+  if (meteoSection.classList.contains('fullscreen')) {
+    searchInput.readOnly = false;
+    geolocBtn.disabled = false;
+    searchBtn.disabled = false;
+    if (searchInput.value.trim() !== '') {
+      suggestions.style.display = 'block';
+    }
+   
+    return;
+  }
+  searchInput.readOnly = true;
+  geolocBtn.disabled = true;
+  searchBtn.disabled = true;
+  suggestions.style.display = 'none';
+}
+ 
+document.addEventListener('DOMContentLoaded', function() {
+  // Stockage des styles originaux pour chaque section
+  const originalStyles = {};
+  
+  // Capture des styles initiaux
+  const sections = document.querySelectorAll(".preview");
+  sections.forEach((section) => {
+    const computedStyle = window.getComputedStyle(section);
+    originalStyles[section.id] = {
+      width: computedStyle.width,
+      height: computedStyle.height,
+      margin: computedStyle.margin,
+      padding: computedStyle.padding,
+      position: computedStyle.position,
+      top: computedStyle.top,
+      left: computedStyle.left,
+      right: computedStyle.right,
+      bottom: computedStyle.bottom,
+      order: computedStyle.order,
+      background: section.id === 'meteo' ? 
+        'linear-gradient(135deg, #00796b, #004d40)' : 
+        computedStyle.background
+    };
+  });
+  
+  // Fonction pour fermer une section en plein écran
+  function closeFullscreen(element) {
+    element.classList.add("fullscreen-exit");
+    
+    setTimeout(() => {
+      element.classList.remove("fullscreen");
+      element.classList.remove("fullscreen-exit");
+      element.classList.add("preview");
+      
+      // Réinitialiser explicitement tous les styles
+      const id = element.id;
+      if (originalStyles[id]) {
+        Object.keys(originalStyles[id]).forEach(prop => {
+          element.style[prop] = originalStyles[id][prop];
+        });
+      }
+      
+      // Réinitialiser les styles supplémentaires pour la météo
+      if (id === 'meteo') {
+        // Forcer la réinitialisation de ces styles spécifiques
+        element.style.cssText = ''; // Effacer tous les styles inline
+        
+        // Réappliquer uniquement les styles originaux
+        Object.keys(originalStyles[id]).forEach(prop => {
+          element.style[prop] = originalStyles[id][prop];
+        });
+        
+        // S'assurer que les dimensions sont correctes
+        element.style.width = '50%';
+        element.style.height = '50%';
+        
+        // Réinitialiser les animations météo si nécessaires
+        const weatherAnimation = element.querySelector('.weather-animation');
+        if (weatherAnimation) {
+          weatherAnimation.style.opacity = '0';
+          setTimeout(() => {
+            if (weatherAnimation.parentNode === element) {
+              element.removeChild(weatherAnimation);
+            }
+          }, 300);
+        }
+      }
+      
+      document.body.style.overflow = '';
+      
+      if (element.dataset.scrollPos) {
+        window.scrollTo(0, parseInt(element.dataset.scrollPos));
+      }
+      
+      const closeBtn = element.querySelector(".close-btn");
+      if (closeBtn) closeBtn.remove();
+      
+      blockMeteoInteractions();
+    }, 300);
+  }
+  
+  // Gestionnaire pour la touche Escape
+  function handleEscapeKey(e) {
+    if (e.key === "Escape") {
+      const fullscreenElement = document.querySelector(".fullscreen");
+      if (fullscreenElement) {
+        closeFullscreen(fullscreenElement);
+      }
+    }
+  }
+  
+  // Ajouter des écouteurs d'événements pour les sections
+  sections.forEach((section) => {
+    section.addEventListener('click', function(e) {
+      if (section.id === 'meteo' && 
+          (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON')) {
+        return;
+      }
+      
+      if (!this.classList.contains("fullscreen")) {
+        this.classList.remove("preview");
+        this.classList.add("fullscreen");
+        this.dataset.scrollPos = window.scrollY;
+        document.body.style.overflow = 'hidden';
+        document.getElementById('suggestions').style.display = 'none';
+        
+        const closeBtn = document.createElement("button");
+        closeBtn.textContent = "Fermer";
+        closeBtn.classList.add("close-btn");
+        
+        setTimeout(() => {
+          this.appendChild(closeBtn);
+          if (this.id === 'meteo') {
+            blockMeteoInteractions();
+          }
+        }, 200);
+        
+        closeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const fullscreenElement = document.querySelector(".fullscreen");
+          if (fullscreenElement) {
+            closeFullscreen(fullscreenElement);
+          }
+        });
+        
+        document.addEventListener("keydown", handleEscapeKey);
+      }
+    });
+  });
+  
+  // Fonction pour bloquer les interactions météo en fonction de l'état
+  function blockMeteoInteractions() {
+    const meteoSection = document.getElementById('meteo');
+    const searchInput = document.getElementById('search');
+    const geolocBtn = document.getElementById('geolocBtn');
+    const searchBtn = document.getElementById('searchbtn');
+    const suggestions = document.getElementById('suggestions');
+    
+    if (meteoSection && meteoSection.classList.contains('fullscreen')) {
+      searchInput.readOnly = false;
+      geolocBtn.disabled = false;
+      searchBtn.disabled = false;
+      if (searchInput.value.trim() !== '') {
+        suggestions.style.display = 'block';
+      }
+    } else if (meteoSection) {
+      searchInput.readOnly = true;
+      geolocBtn.disabled = true;
+      searchBtn.disabled = true;
+      suggestions.style.display = 'none';
+    }
+  }
+  
+  // Initialisation
+  blockMeteoInteractions();
+  
+  // Écouteur pour la transition de la section météo
+  const meteoSection = document.getElementById('meteo');
+  if (meteoSection) {
+    meteoSection.addEventListener('transitionend', function() {
+      blockMeteoInteractions();
+    });
+  }
+});

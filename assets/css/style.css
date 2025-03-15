@@ -50,7 +50,57 @@ section:not(#heure) div{
   font-size: 18px;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-bottom: 15px;
 }
+
+#meteo {
+  background: linear-gradient(135deg, #00796b, #004d40);
+  color: white;
+  position: relative;
+}
+
+#meteo-content {
+  position: relative;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+#meteo #search {
+  padding: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 18px;
+  width: 300px;
+  transition: all 0.3s ease;
+}
+
+  
+  #meteo #search:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  #meteo #search::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+    
+  #meteo #meteo-content {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 22px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+
+
 
 #news {
     order: 2;
@@ -404,3 +454,6 @@ footer {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
   }
+
+
+  
