@@ -1,4 +1,4 @@
-const apiKey = '';
+const apiKey = 'b93e62f9056ea201f7d9e7397f8bf4b8';
 // Animation et effets visuels basés sur les conditions météorologiques
 const weatherAnimations = {
     backgrounds: {

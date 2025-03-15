@@ -1,4 +1,4 @@
-const apiKeyNews = "";
+const apiKeyNews = "4ca320d1c449ee81cddd3a1f1acf391c";
 
 const url = `https://gnews.io/api/v4/top-headlines?lang=fr&token=${apiKeyNews}`;
 
