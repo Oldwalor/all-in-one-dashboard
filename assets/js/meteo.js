@@ -1,4 +1,4 @@
-const apiKey = 'b93e62f9056ea201f7d9e7397f8bf4b8';
+const apiKey = '';
 // Animation et effets visuels basés sur les conditions météorologiques
 const weatherAnimations = {
     backgrounds: {
@@ -502,5 +502,24 @@ function getWeatherByGeolocation() {
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("geolocBtn").addEventListener("click", getWeatherByGeolocation);
+    
+    // Code pour créer le bouton de fermeture pour les sections
+    document.querySelectorAll('section').forEach(section => {
+        section.addEventListener('click', function(e) {
+            // Vérifier si c'est un clic sur la section elle-même (pas sur un élément enfant)
+            if (e.target === this) {
+                if (!this.classList.contains('fullscreen')) {
+                    this.classList.add('fullscreen');
+                    
+                    // Créer le bouton de fermeture s'il n'existe pas déjà
+                    if (!this.querySelector('.close-btn')) {
+                        const closeBtn = document.createElement('button');
+                        closeBtn.className = 'close-btn';
+                        closeBtn.innerHTML = '&times;';                       
+                        this.appendChild(closeBtn);
+                    }
+                }
+            }
+        });
+    });
 });
-

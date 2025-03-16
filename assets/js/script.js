@@ -1,4 +1,4 @@
-const apiKeyNews = "4ca320d1c449ee81cddd3a1f1acf391c";
+const apiKeyNews = "";
 
 const url = `https://gnews.io/api/v4/top-headlines?lang=fr&token=${apiKeyNews}`;
 
@@ -156,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.body.style.overflow = 'hidden';
 
-        this.classList.remove("preview");
         this.classList.add("fullscreen");
         
         document.getElementById('suggestions').style.display = 'none';
@@ -187,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         element.classList.remove("fullscreen");
         element.classList.remove("fullscreen-exit");
-        element.classList.add("preview");
      
         document.body.style.overflow = '';
  
@@ -256,8 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Stockage des styles originaux pour chaque section
   const originalStyles = {};
   
-  // Capture des styles initiaux
-  const sections = document.querySelectorAll(".preview");
+  // Capture des styles initiau
   sections.forEach((section) => {
     const computedStyle = window.getComputedStyle(section);
     originalStyles[section.id] = {
@@ -278,61 +275,40 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Fonction pour fermer une section en plein écran
-  function closeFullscreen(element) {
-    element.classList.add("fullscreen-exit");
+// Modifiez cette fonction dans votre premier fichier JS (paste.txt)
+function closeFullscreen(element) {
+  element.classList.add("fullscreen-exit");
+
+  setTimeout(() => {
+    element.classList.remove("fullscreen");
+    element.classList.remove("fullscreen-exit");
     
-    setTimeout(() => {
-      element.classList.remove("fullscreen");
-      element.classList.remove("fullscreen-exit");
-      element.classList.add("preview");
-      
-      // Réinitialiser explicitement tous les styles
-      const id = element.id;
-      if (originalStyles[id]) {
-        Object.keys(originalStyles[id]).forEach(prop => {
-          element.style[prop] = originalStyles[id][prop];
-        });
-      }
-      
-      // Réinitialiser les styles supplémentaires pour la météo
-      if (id === 'meteo') {
-        // Forcer la réinitialisation de ces styles spécifiques
-        element.style.cssText = ''; // Effacer tous les styles inline
-        
-        // Réappliquer uniquement les styles originaux
-        Object.keys(originalStyles[id]).forEach(prop => {
-          element.style[prop] = originalStyles[id][prop];
-        });
-        
-        // S'assurer que les dimensions sont correctes
-        element.style.width = '50%';
-        element.style.height = '50%';
-        
-        // Réinitialiser les animations météo si nécessaires
-        const weatherAnimation = element.querySelector('.weather-animation');
-        if (weatherAnimation) {
-          weatherAnimation.style.opacity = '0';
-          setTimeout(() => {
-            if (weatherAnimation.parentNode === element) {
-              element.removeChild(weatherAnimation);
-            }
-          }, 300);
-        }
-      }
-      
-      document.body.style.overflow = '';
-      
-      if (element.dataset.scrollPos) {
-        window.scrollTo(0, parseInt(element.dataset.scrollPos));
-      }
-      
-      const closeBtn = element.querySelector(".close-btn");
-      if (closeBtn) closeBtn.remove();
-      
+    // Réinitialisation complète des styles
+    element.style.cssText = '';
+    
+    // Réappliquer uniquement les styles spécifiques nécessaires
+    if (element.id === 'meteo') {
+      element.style.background = 'linear-gradient(135deg, #00796b, #004d40)';
+    }
+    
+    document.body.style.overflow = '';
+    
+    if (element.dataset.scrollPos) {
+      window.scrollTo(0, parseInt(element.dataset.scrollPos));
+    }
+    
+    const closeBtn = element.querySelector(".close-btn");
+    if (closeBtn) closeBtn.remove();
+    
+    // S'assurer que les bonnes interactions sont appliquées
+    if (typeof blockMeteoInteractions === 'function') {
       blockMeteoInteractions();
-    }, 300);
-  }
-  
+    }
+    
+    document.getElementById('suggestions').style.display = 'none';
+  }, 300);
+}
+
   // Gestionnaire pour la touche Escape
   function handleEscapeKey(e) {
     if (e.key === "Escape") {
@@ -352,7 +328,49 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       if (!this.classList.contains("fullscreen")) {
-        this.classList.remove("preview");
+        this.classList.add("fullscreen");
+        this.dataset.scrollPos = window.scrollY;
+        document.body.style.overflow = 'hidden';
+        document.getElementById('suggestions').style.display = 'none';
+        
+        // Rendre visible la div #meteo-content lorsque le mode plein écran est activé
+        const meteoContent = document.getElementById('meteo-content');
+        meteoContent.style.display = 'block';  // Rendre visible le contenu
+        
+        const closeBtn = document.createElement("button");
+        closeBtn.textContent = "Fermer";
+        closeBtn.classList.add("close-btn");
+        
+        setTimeout(() => {
+          this.appendChild(closeBtn);
+          if (this.id === 'meteo') {
+            blockMeteoInteractions();
+          }
+        }, 200);
+        
+        closeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const fullscreenElement = document.querySelector(".fullscreen");
+          if (fullscreenElement) {
+            closeFullscreen(fullscreenElement);
+          }
+        });
+        
+        document.addEventListener("keydown", handleEscapeKey);
+      }
+    });
+  });
+  
+  // Fonction pour sortir du mode plein écran
+  sections.forEach((section) => {
+    section.addEventListener('click', function(e) {
+      if (section.id === 'meteo' && 
+          (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON')) {
+        return;
+      }
+      
+      if (!this.classList.contains("fullscreen")) {
+        // Ajout de la classe fullscreen pour passer en mode plein écran
         this.classList.add("fullscreen");
         this.dataset.scrollPos = window.scrollY;
         document.body.style.overflow = 'hidden';
@@ -382,30 +400,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Fonction pour bloquer les interactions météo en fonction de l'état
-  function blockMeteoInteractions() {
-    const meteoSection = document.getElementById('meteo');
-    const searchInput = document.getElementById('search');
-    const geolocBtn = document.getElementById('geolocBtn');
-    const searchBtn = document.getElementById('searchbtn');
-    const suggestions = document.getElementById('suggestions');
+  // Fonction pour sortir du mode plein écran
+  function closeFullscreen(fullscreenElement) {
+    fullscreenElement.classList.remove("fullscreen");
+    document.body.style.overflow = 'auto';
+    document.getElementById('suggestions').style.display = 'block';  // ou 'flex'
     
-    if (meteoSection && meteoSection.classList.contains('fullscreen')) {
-      searchInput.readOnly = false;
-      geolocBtn.disabled = false;
-      searchBtn.disabled = false;
-      if (searchInput.value.trim() !== '') {
-        suggestions.style.display = 'block';
-      }
-    } else if (meteoSection) {
-      searchInput.readOnly = true;
-      geolocBtn.disabled = true;
-      searchBtn.disabled = true;
-      suggestions.style.display = 'none';
-    }
+    // La div #meteo-content sera cachée grâce au CSS qui remet display: none
   }
-  
-  // Initialisation
+
+
+    // Initialisation
   blockMeteoInteractions();
   
   // Écouteur pour la transition de la section météo

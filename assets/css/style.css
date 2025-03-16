@@ -36,11 +36,6 @@ section:not(#heure) div{
     gap: 10px;
 }
 
-#meteo {
-    order: 1;
-    background-color: #e0f7fa;
-}
-
 #meteo #searchbtn {
   padding: 15px 25px;
   background-color: rgba(255, 255, 255, 0.2);
@@ -53,11 +48,14 @@ section:not(#heure) div{
   margin-bottom: 15px;
 }
 
+
 #meteo {
+  order: 1;
   background: linear-gradient(135deg, #00796b, #004d40);
   color: white;
   position: relative;
 }
+
 
 #meteo-content {
   position: relative;
@@ -97,10 +95,8 @@ section:not(#heure) div{
     max-width: 600px;
     margin: 0 auto;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    display: none;
   }
-  
-
-
 
 #news {
     order: 2;
